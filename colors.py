@@ -24,3 +24,17 @@ def plot_colors(colors):
     axes.set_axis_off()
     for i, color in enumerate(colors):
         axes.add_patch(plt.Rectangle((i, 0), 1, 1, color=to_mpl_color(color)))
+
+
+def create_example_plot(colors):
+    x = np.linspace(0, 3 * np.pi, 100)
+    fig = plt.figure()
+    axes = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+    for i, color in enumerate(colors):
+        axes.plot(
+            x, np.sin(x + 2 * np.pi * i / len(colors)),
+            color=to_mpl_color(color), linewidth=3)
+
+
+def create_example_scatter_plot(colors):
+    pass  # TODO
