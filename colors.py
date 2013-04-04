@@ -15,15 +15,51 @@ def create_distinct_colors(
     return [LCHuvColor(luminance, chroma, hue) for hue in hues]
 
 
-def plot_colors(colors):
+def tint_of(color):
+    lch = color.convert_to('lchuv')
+    luminance = min(100, 1.5 * lch.lch_l)
+    chroma = max(0, lch.lch_c / 2.0)
+    return LCHuvColor(luminance, chroma, lch.lch_h)
+
+
+def shade_of(color):
+    lch = color.convert_to('lchuv')
+    luminance = max(0, lch.lch_l / 2.0)
+    chroma = 1.5 * lch.lch_c
+    return LCHuvColor(luminance, chroma, lch.lch_h)
+
+
+def hue_of(color):
+    lch = color.convert_to('lchuv')
+    return LCHuvColor(lch.lch_l, 255, lch.lch_h)
+
+
+def plot_palette(palette):
     fig = plt.figure()
     axes = fig.add_axes([0, 0, 1, 1])
-    axes.set_xlim(0, len(colors))
-    axes.set_ylim(0, 1)
+    axes.set_xlim(0, len(palette))
+    axes.set_ylim(0, 4)
     axes.set_aspect('equal')
     axes.set_axis_off()
-    for i, color in enumerate(colors):
+    for i, color in enumerate(palette.tones):
         axes.add_patch(plt.Rectangle((i, 0), 1, 1, color=to_mpl_color(color)))
+    for i, color in enumerate(palette.tints):
+        axes.add_patch(plt.Rectangle((i, 1), 1, 1, color=to_mpl_color(color)))
+    for i, color in enumerate(palette.shades):
+        axes.add_patch(plt.Rectangle((i, 2), 1, 1, color=to_mpl_color(color)))
+    for i, color in enumerate(palette.hues):
+        axes.add_patch(plt.Rectangle((i, 3), 1, 1, color=to_mpl_color(color)))
+
+
+class Palette(object):
+    def __init__(self, base_tones):
+        self.tones = base_tones
+        self.tints = [tint_of(c) for c in base_tones]
+        self.shades = [shade_of(c) for c in base_tones]
+        self.hues = [hue_of(c) for c in base_tones]
+
+    def __len__(self):
+        return len(self.tones)
 
 
 def create_example_plot(colors):
@@ -33,7 +69,7 @@ def create_example_plot(colors):
     for i, color in enumerate(colors):
         axes.plot(
             x, np.sin(x + 2 * np.pi * i / len(colors)),
-            color=to_mpl_color(color), linewidth=3)
+            linewidth=3)
 
 
 def create_example_scatter_plot(colors):
@@ -47,4 +83,4 @@ def create_example_scatter_plot(colors):
     axes = fig.add_axes([0.1, 0.1, 0.8, 0.8])
     axes.set_aspect('equal')
     for item, color in zip(data, colors):
-        axes.scatter(item[:, 0], item[:, 1], color=to_mpl_color(color))
+        axes.scatter(item[:, 0], item[:, 1])
