@@ -37,4 +37,14 @@ def create_example_plot(colors):
 
 
 def create_example_scatter_plot(colors):
-    pass  # TODO
+    from numpy.random import multivariate_normal
+    covs = [np.array([[4.0, 0.0], [0.0, 0.1]]),
+            np.array([[5.0, 2.0], [2.0, 1.0]]),
+            np.array([[0.5, 0.0], [0.0, 5.0]])]
+    data = [multivariate_normal((0, 0), cov, 50) for cov in covs]
+
+    fig = plt.figure()
+    axes = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+    axes.set_aspect('equal')
+    for item, color in zip(data, colors):
+        axes.scatter(item[:, 0], item[:, 1], color=to_mpl_color(color))
