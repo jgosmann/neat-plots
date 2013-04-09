@@ -91,8 +91,8 @@ class QualitativePalette(object):
         colors = create_distinct_colors(
             num, hue_start, hue_range, luminance, chroma)
         self.by_category = {
-            'thin': colors,
-            'thick': [c.shade for c in colors],
+            'thick': colors,
+            'thin': [c.shade for c in colors],
             'highlight': [c.radiant for c in colors]
         }
         for category, colors in self.by_category.iteritems():
