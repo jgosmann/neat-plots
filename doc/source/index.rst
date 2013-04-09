@@ -3,16 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to neat-plots's documentation!
+Welcome to neat-plots' documentation!
 ======================================
+
+While `Matplotlib <http://matplotlib.org/>`_ is great for creating all
+kinds of plots, the default colors are not optimal. Neat-plots aims at providing
+good color schemes for various kinds of data visualization tasks. It also makes
+it easy to create own sane color schemes.
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
-
-
-.. plot:: pyplots/examples.py
 
 
 Indices and tables
