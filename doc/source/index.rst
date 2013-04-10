@@ -16,6 +16,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   palettes
+
 
 Indices and tables
 ==================
