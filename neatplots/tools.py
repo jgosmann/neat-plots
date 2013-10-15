@@ -1,6 +1,27 @@
 from matplotlib.gridspec import GridSpecFromSubplotSpec
 
 
+# FIXME test this class
+class FunctionBroadcast(list):
+    def __call__(self, *args, **kwargs):
+        return [f(*args, **kwargs) for f in self]
+
+
+# FIXME test this class
+class ObjectBroadcast(list):
+    def __getattr__(self, name):
+        return FunctionBroadcast(getattr(obj, name) for obj in self)
+
+    def __setattr__(self, name, value):
+        for obj in self:
+            setattr(obj, name, value)
+
+    def __delattr__(self, name):
+        for obj in self:
+            delattr(obj, name)
+
+
+# FIXME can this be tested?
 class HSplitAxes(object):
     def __init__(
             self, figure, subplot_spec=1, ratio=0.5, spacing=0.1,
@@ -15,6 +36,7 @@ class HSplitAxes(object):
             sharex = self.top
         self.bottom = figure.add_subplot(
             self.grid[1], sharex=sharex, sharey=sharey_bottom)
+        self.both = ObjectBroadcast([self.top, self.bottom])
 
         self.__init_spines_and_ticks(self.top, self.bottom)
         self.__draw_tear_marks(self.top, self.bottom, ratio)
