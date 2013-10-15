@@ -1,6 +1,8 @@
 Predefined Palettes
 ===================
 
+.. automodule:: neatplots.predefined
+
 summer
 ------
 
