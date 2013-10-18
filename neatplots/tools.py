@@ -1,7 +1,7 @@
 import itertools
 
 from matplotlib.artist import allow_rasterization, Artist
-from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec
+from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec, SubplotSpec
 from matplotlib.transforms import Bbox
 from matplotlib import text
 
@@ -65,8 +65,8 @@ class JoinedYAxesLabel(Artist):
 # FIXME can this be tested?
 class HSplitAxes(object):
     def __init__(
-            self, figure, subplot_spec=1, ratio=0.5, spacing=0.1,
-            sharex=None, sharey=(None, None)):
+            self, figure, subplot_spec=SubplotSpec(GridSpec(1, 1), 0),
+            ratio=0.5, spacing=0.1, sharex=None, sharey=(None, None)):
         self.figure = figure
         self.grid = GridSpecFromSubplotSpec(
             2, 1, subplot_spec, height_ratios=(ratio, 1.0 - ratio),
