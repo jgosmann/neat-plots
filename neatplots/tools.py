@@ -122,8 +122,11 @@ class HSplitAxes(object):
 
 
 class SharedAxesGrid(object):
-    def __init__(self, rows_data, cols_data):
-        grid = GridSpec(len(rows_data), len(cols_data))
+    def __init__(
+            self, rows_data, cols_data,
+            subplot_spec=SubplotSpec(GridSpec(1, 1), 0)):
+        grid = GridSpecFromSubplotSpec(
+            len(rows_data), len(cols_data), subplot_spec)
         self.axes_by_row = []
         self.axes_by_col = []
         self.axes = Broadcast()
