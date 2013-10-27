@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_colors(colors, (x, y)=0, (width, height)=(1, 1), axes=None):
+def plot_colors(colors, pos=(0, 0), (width, height)=(1, 1), axes=None):
+    x, y = pos
     if axes is None:
         axes = plt.gca()
     for i, color in enumerate(colors):
