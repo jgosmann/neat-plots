@@ -1,6 +1,7 @@
 
 from colormath.color_objects import LCHuvColor
 import numpy as np
+from matplotlib.colors import Colormap
 
 
 class MplLCHColor(object):
@@ -97,3 +98,36 @@ class QualitativePalette(object):
         }
         for category, colors in self.by_category.iteritems():
             setattr(self, category, colors)
+
+
+class SequentialCPalette(Colormap):
+    def __init__(self, name, hue, luminance, chroma_range, N=256):
+        self.hue = hue
+        self.luminance = luminance
+        self.chroma_range = chroma_range
+        self.monochrome = False
+        super(SequentialCPalette, self).__init__(name, N)
+
+    def _init(self):
+        chromas = np.linspace(*self.chroma_range, num=self.N)
+        self._lut = np.ones((self.N, 4))
+        for i, chroma in enumerate(chromas):
+            self._lut[i, :3] = MplLCHColor(
+                self.luminance, chroma, self.hue).rgb
+
+
+class SequentialLCPalette(Colormap):
+    def __init__(self, name, hue, luminance_range, chroma_range, N=256):
+        self.hue = hue
+        self.luminance_range = luminance_range
+        self.chroma_range = chroma_range
+        self.monochrome = False
+        super(SequentialLCPalette, self).__init__(name, N)
+
+    def _init(self):
+        luminances = np.linspace(*self.luminance_range, num=self.N)
+        chromas = np.linspace(*self.chroma_range, num=self.N)
+        self._lut = np.ones((self.N, 4))
+        for i in xrange(self.N):
+            self._lut[i, :3] = MplLCHColor(
+                luminances[i], chromas[i], self.hue).rgb
