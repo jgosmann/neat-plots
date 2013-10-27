@@ -125,9 +125,11 @@ class SequentialLCPalette(Colormap):
         super(SequentialLCPalette, self).__init__(name, N)
 
     def _init(self):
-        luminances = np.linspace(*self.luminance_range, num=self.N)
-        chromas = np.linspace(*self.chroma_range, num=self.N)
-        self._lut = np.ones((self.N, 4))
-        for i in xrange(self.N):
-            self._lut[i, :3] = MplLCHColor(
-                luminances[i], chromas[i], self.hue).rgb
+        self._lut = np.array(
+            [color.rgb + (1.0,) for color in self.discretize(self.N)])
+
+    def discretize(self, N):
+        luminances = np.linspace(*self.luminance_range, num=N)
+        chromas = np.linspace(*self.chroma_range, num=N)
+        return [MplLCHColor(l, c, self.hue) for l, c in zip(
+            luminances, chromas)]
