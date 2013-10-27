@@ -13,7 +13,7 @@ palettes = {
         'poles': QualitativePalette(3, 237, 180)
     },
     4: {
-        'four': QualitativePalette(4, 30)
+        'four': QualitativePalette(4, 120, luminance=60, chroma=90)
     },
     5: {
         'five': QualitativePalette(5, 0)
