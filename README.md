@@ -1,0 +1,1 @@
+This project is obsolete. Take a look at [prettyplotlib](http://olgabot.github.io/prettyplotlib/). Also, there is an effort to add styles to matplotlib and, I guess, they will be included in the upcoming version 1.4.
